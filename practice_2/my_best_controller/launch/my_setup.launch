@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+<node name="my_super_node" pkg="my_robot_controller" type="super_node.py"></node>
+<!-- Start here the turtlesim!!! -->
+<node name="turtlesim_node" pkg="turtlesim" type="turtlesim_node"></node>
+</launch>
