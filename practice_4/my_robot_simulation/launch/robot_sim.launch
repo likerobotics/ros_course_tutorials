@@ -1,0 +1,27 @@
+<launch>
+
+<arg name="rviz_conf_file" default="$(find my_robot_simulation)/urdf/rviz_conf.rviz" />
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" ></node>
+
+<param name="robot_description" command="xacro '$(find my_robot_simulation)/diff_drive_robot/urdf/diff_drive_robot.xacro'" />
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen" >
+    <param name="publish_frequency" type="double" value="40.0" />
+  </node>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find my_robot_simulation)/worlds/empty.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <node name="my_robot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
+   args="-urdf -param robot_description -model diff_drive_robot1" />
+
+<node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rviz_conf_file)" />
+
+</launch>
