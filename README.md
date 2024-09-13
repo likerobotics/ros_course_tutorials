@@ -11,15 +11,23 @@ install docker following the instructions on https://docs.docker.com/engine/inst
 Don't forger to add user to the group docker (https://docs.docker.com/engine/install/linux-postinstall/)
 
 ### Start using docker
-If you are not interested on Docker, just use the following bash scripts to get ROS inside the docker.
-Inside `docker` folder: 
+If you are not interested on Docker, just use the following bash scripts to get ROS inside `docker` folder (`cd docker`) step by step: 
 
+Step 1:
 ```
-xhost +local:root
+xhost +local:root 
+```
+Step 2:
+```
 ./docker_install.bash
+```
+Step 3:
+```
 ./docker_build.bash
+```
+Step 4:
+```
 ./docker_run.bash
-
 ```
 
 If you you want to use docker as with all commands, just open the bash scripts in IDE and execude comands in terminal! =)
