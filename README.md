@@ -1,45 +1,102 @@
-# ros_course_tutorials
-ROS course tutorials: full course from the beginning to the practical use.
+# ROS 2 Course
 
-> [!WARNING]
-> For ITMO University students there is different repository with extended and more relevant materials, but Docker section is same for everybody.
+Course materials and structured laboratory-work submissions for learning robot
+software development with ROS 2.
 
-## Docker
-### Installation
-install docker following the instructions on https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository 
+The course uses **ROS 2 Jazzy** on **Ubuntu 24.04** and **Gazebo Harmonic**.
+It introduces ROS 2 communication and tooling before progressing from robot
+descriptions to simulation, control, sensors, and hardware integration.
 
-Don't forger to add user to the group docker (https://docs.docker.com/engine/install/linux-postinstall/)
+## Course content
 
-### Start using docker
-If you are not interested on Docker, just use the following bash scripts to get ROS inside `docker` folder (`cd docker`) step by step: 
+The course covers:
 
-Step 1:
+- Linux, ROS 2 installation, workspaces, packages, and `colcon`;
+- ROS 2 nodes, topics, messages, parameters, namespaces, and launch files;
+- quality of service (QoS), ROS time, and command-line tools;
+- custom messages, services, and actions;
+- TF2, URDF, Xacro, and visualization in RViz2;
+- robot simulation with Gazebo and communication through `ros_gz_bridge`;
+- joint and mobile-base control with `ros2_control`;
+- simulated cameras and lidars and processing their data;
+- hardware interfaces and communication with a microcontroller.
+
+## Laboratory works
+
+1. **ROS 2 package and controller** — run two turtlesim instances in separate
+   namespaces, control the first turtle through assigned points, and make the
+   second turtle follow its pose.
+2. **Custom services and actions** — define custom interfaces and separate
+   turtle-control behavior into clients and servers. The action part is an
+   optional advanced task.
+3. **Robot model** — describe a variant-specific mobile robot and manipulator
+   using Xacro, publish its state, and visualize its model and TF tree in RViz2.
+4. **Robot simulation and control** — simulate a differential-drive robot in
+   Gazebo, control its joints with `ros2_control`, and convert `/cmd_vel`
+   commands into wheel velocities.
+5. **Sensors and autonomous behavior** — add a camera and lidar to a simulated
+   robot, create a populated scene, visualize sensor data, and implement a
+   clearly observable behavior using sensor feedback.
+6. **Hardware integration with `ros2_control`** — create a custom hardware
+   interface derived from `hardware_interface::SystemInterface`, register it as
+   a plugin, and connect it to the robot through URDF and controller
+   configuration. Implement the `read`/`update`/`write` control loop and exchange
+   wheel commands and encoder feedback with an Arduino-compatible
+   microcontroller using the specified `SET` and `ENC` protocol. The completed
+   system must expose its hardware interfaces and controllers through the ROS 2
+   control tools and run with simulation time disabled.
+
+Exact variant values and assessment requirements are defined in the course
+book. A student's variant is selected using the last digit of their ITMO ISU
+ID.
+
+## Repository layout
+
+```text
+ros2_course/
+├── lab1/    # mybestcontroller
+├── lab2/    # lab2_interfaces and lab2_controller
+├── lab3/    # my_best_model
+├── lab4/    # my_best_robot_simulation_control
+├── lab5/    # my_best_robot_simulation_setup
+├── lab6/    # my_robot_hardware and hardware-control configuration
+└── docker_ros2/
 ```
-xhost +local:root 
-```
-Step 2:
-```
-./docker_install.bash
-```
-Step 3:
-```
-./docker_build.bash
-```
-Step 4:
-```
-./docker_run.bash
+
+The `lab1` through `lab6` directories are submission locations. Package names,
+required filenames, and directory paths must remain unchanged because automated
+checks rely on them. Skeleton files provide structure only; students must
+replace all `TODO(student)` markers with their own implementations.
+
+Do not commit generated workspace artifacts such as `build/`, `install/`, or
+`log/`.
+
+## Building a submission
+
+Place the repository inside a ROS 2 workspace or build a selected package from
+the repository root. For example:
+
+```bash
+source /opt/ros/jazzy/setup.bash
+colcon build --symlink-install --packages-select mybestcontroller
+source install/setup.bash
 ```
 
-If you you want to use docker as with all commands, just open the bash scripts in IDE and execude comands in terminal! =)
+Run Lab 1 with:
 
-## First run
-from teriman to enter docker container just use `./docker_run.bash`
-if u need new bash-script(new terminal) with same docker just open new terminal and use command `./docker_new.bash`
+```bash
+ros2 launch mybestcontroller lab1.launch.py
+```
 
+Other laboratory packages use the launch filenames specified in their
+assignments and package documentation.
 
+## Submission rules
 
-> [!NOTE]
-> Some check (for first time):
->	- OS version: `lsb_release -a`
->	- ROS version: `rosversion -d`
-	
+- Submit source packages only in the corresponding `labN` directory.
+- Preserve all required package and file names.
+- Do not include unrelated packages or generated build artifacts.
+- Replace template metadata and every student TODO where instructed.
+- Ensure the package builds from a clean workspace before submission.
+- Keep solutions original; this repository provides submission structure, not
+  completed laboratory solutions.
